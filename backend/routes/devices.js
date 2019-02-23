@@ -1,6 +1,19 @@
+const http = require('http');
 const router = require('express').Router();
 const devices = require('../models/devices');
 const Device = require('../models/device');
+
+function sendRequest(url) {
+    return new Promise((resolve, reject) => {
+        http.get(url, (res) => {
+            if (res.statusCode !== 200) {
+                reject(res.statusCode)
+            } else {
+                resolve();
+            }
+        });
+    });
+}
 
 router.get('/', async (req, res) => {
     //res.json(devices.getAllDevices());
@@ -57,14 +70,35 @@ router.put('/:id', async (req, res) => {
     const deviceData = req.body;
 
     try {
-        await Device.findByIdAndUpdate(deviceId, {
+        const device = await Device.findById(deviceId).exec();
+        await device.update({
             ...deviceData,
             state: deviceData.state === 'on'
         });
+
+        const url = `http://${device.address}:${device.port}`;
+        const command = device.state ? 'Power%20On' : 'Power%20off';
+        const urlWithCommand = `${url}/cm?cmnd=${command}`;
+        console.log(urlWithCommand);
+        await sendRequest(urlWithCommand);
+
         res.sendStatus(200);
     } catch (e) {
         res.sendStatus(404);
     }
+
+    // const deviceId = req.params.id;
+    // const deviceData = req.body;
+
+    // try {
+    //     await Device.findByIdAndUpdate(deviceId, {
+    //         ...deviceData,
+    //         state: deviceData.state === 'on'
+    //     });
+    //     res.sendStatus(200);
+    // } catch (e) {
+    //     res.sendStatus(404);
+    // }
 
     //const deviceId = req.params.id;
     // const device = devices.getDeviceById(deviceId);
