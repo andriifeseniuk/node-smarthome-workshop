@@ -5,6 +5,7 @@ const app = express();
 const port = 3005;
 
 app.use(corsMiddleware);
+app.use(express.json());
 app.use('/devices', deviceRouter);
 
 app.get('/', (req, res) => {

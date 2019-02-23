@@ -32,31 +32,37 @@ export async function getDeviceById(deviceId) {
 }
 
 export async function addDevice(device) {
-    index += 1;
-    devices[index] = {
-        id: index,
-        state: 'off',
-        ...device
-    };
+    const response = await axios.post(`${serverUrl}/devices`, device);
+    return response.data;
+    
+    // index += 1;
+    // devices[index] = {
+    //     id: index,
+    //     state: 'off',
+    //     ...device
+    // };
 }
 
 export async function removeDevice(deviceId) {
-    devices = {
-        ...devices,
-        [deviceId]: undefined
-    };
+    return await axios.delete(`${serverUrl}/devices/${deviceId}`);
+    
+    // devices = {
+    //     ...devices,
+    //     [deviceId]: undefined
+    // };
 
-    delete devices[deviceId];
+    // delete devices[deviceId];
 }
 
 export async function updateDevice(deviceId, data) {
-    devices = {
-        ...devices,
-        [deviceId]: {
-            ...devices[deviceId],
-            ...data
-        }
-    };
+    return await axios.put(`${serverUrl}/devices/${deviceId}`, data);
+    // devices = {
+    //     ...devices,
+    //     [deviceId]: {
+    //         ...devices[deviceId],
+    //         ...data
+    //     }
+    // };
 }
 
 export async function switchOn(deviceId) {

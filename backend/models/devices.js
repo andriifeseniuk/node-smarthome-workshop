@@ -1,3 +1,4 @@
+let index = 3;
 let devices = {
     device1: {
         id: 'device1',
@@ -24,7 +25,38 @@ function getDeviceById(deviceId)
     return devices[deviceId];
 }
 
+function addDevice(device) {
+    index += 1;
+    devices[index] = {
+        id: index,
+        state: 'off',
+        ...device
+    };
+}
+
+function deleteDivice(deviceId) {
+    devices = {
+        ...devices,
+        [deviceId]: undefined
+    };
+
+    delete devices[deviceId];
+}
+
+function updateDevice(deviceId, data) {
+    devices = {
+        ...devices,
+        [deviceId]: {
+            ...devices[deviceId],
+            ...data
+        }
+    };
+}
+
 module.exports = {
     getAllDevices,
-    getDeviceById
+    getDeviceById,
+    addDevice,
+    deleteDivice,
+    updateDevice
 };
