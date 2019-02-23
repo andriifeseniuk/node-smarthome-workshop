@@ -9,12 +9,15 @@ router.get('/', async (req, res) => {
     res.json(devices.map(d => deviceAdapter(d)));
 });
 
-router.get('/:id', (req, res) => {
+router.get('/:id', async (req, res) => {
     const deviceId = req.params.id;
-    const device = devices.getDeviceById(deviceId);
+    //const device = devices.getDeviceById(deviceId);
+    console.log(deviceId);
+    const device = await Device.findById(deviceId).exec();
+    console.log(device);
 
     if (device) {
-        res.json(device);
+        res.json(deviceAdapter(device));
     } else {
         res.sendStatus(404);
     }
@@ -26,7 +29,7 @@ function deviceAdapter(device) {
         name: device.name,
         address: device.address,
         port: device.port,
-        state: device.port
+        state: device.state ? 'on' : 'off'
     }
 }
 
@@ -40,24 +43,38 @@ router.post('/', async (req,res) => {
     res.sendStatus(201);
 });
 
-router.delete('/:id', (req,res) => {
+router.delete('/:id', async (req,res) => {
     const deviceId = req.params.id;
-    devices.deleteDivice(deviceId);
+    //devices.deleteDivice(deviceId);
+
+    await Device.findByIdAndDelete(deviceId);
 
     res.sendStatus(200);
 });
 
-router.put('/:id', (req, res) => {
+router.put('/:id', async (req, res) => {
     const deviceId = req.params.id;
-    const device = devices.getDeviceById(deviceId);
+    const deviceData = req.body;
 
-    if (device) {
-        const deviceData = req.body;
-        devices.updateDevice(deviceId, deviceData);
-        res.json(device);
-    } else {
+    try {
+        await Device.findByIdAndUpdate(deviceId, {
+            ...deviceData,
+            state: deviceData.state === 'on'
+        });
+        res.sendStatus(200);
+    } catch (e) {
         res.sendStatus(404);
     }
+
+    //const deviceId = req.params.id;
+    // const device = devices.getDeviceById(deviceId);
+    // if (device) {
+    //     const deviceData = req.body;
+    //     devices.updateDevice(deviceId, deviceData);
+    //     res.json(device);
+    // } else {
+    //     res.sendStatus(404);
+    // }
 });
 
 module.exports = router;
