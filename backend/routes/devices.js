@@ -1,8 +1,12 @@
 const router = require('express').Router();
-const devices = require('../models/devices.js');
+const devices = require('../models/devices');
+const Device = require('../models/device');
 
-router.get('/', (req, res) => {
-    res.json(devices.getAllDevices());
+router.get('/', async (req, res) => {
+    //res.json(devices.getAllDevices());
+
+    const devices = await Device.find().exec();
+    res.json(devices);
 });
 
 router.get('/:id', (req, res) => {
