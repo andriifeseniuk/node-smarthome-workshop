@@ -19,6 +19,12 @@ function getAllDevices() {
     return Object.values(devices);
 };
 
+function getDeviceById(deviceId)
+{
+    return devices[deviceId];
+}
+
 module.exports = {
-    getAllDevices
+    getAllDevices,
+    getDeviceById
 };

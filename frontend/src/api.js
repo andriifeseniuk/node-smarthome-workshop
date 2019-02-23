@@ -26,7 +26,9 @@ export async function getDevices() {
 }
 
 export async function getDeviceById(deviceId) {
-    return devices[deviceId];
+    const response = await axios.get(`${serverUrl}/devices/${deviceId}`);
+    return response.data;
+    //return devices[deviceId];
 }
 
 export async function addDevice(device) {
