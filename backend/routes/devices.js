@@ -1,8 +1,8 @@
 const router = require('express').Router();
-const devices = require('..models/devices');
+const devices = require('../models/devices.js');
 
 router.get('/', (req, res) => {
-    res.sendJson(devices.getAllDevices());
-};)
+    res.json(devices.getAllDevices());
+});
 
 module.exports = router;

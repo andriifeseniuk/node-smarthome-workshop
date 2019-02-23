@@ -17,8 +17,8 @@ let devices = {
 
 function getAllDevices() {
     return Object.values(devices);
-}
+};
 
 module.exports = {
     getAllDevices
-}
+};
