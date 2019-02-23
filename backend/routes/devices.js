@@ -6,7 +6,7 @@ router.get('/', async (req, res) => {
     //res.json(devices.getAllDevices());
 
     const devices = await Device.find().exec();
-    res.json(devices);
+    res.json(devices.map(d => deviceAdapter(d)));
 });
 
 router.get('/:id', (req, res) => {
@@ -20,9 +20,22 @@ router.get('/:id', (req, res) => {
     }
 });
 
-router.post('/', (req,res) => {
+function deviceAdapter(device) {
+    return {
+        id: device._id,
+        name: device.name,
+        address: device.address,
+        port: device.port,
+        state: device.port
+    }
+}
+
+router.post('/', async (req,res) => {
+    // const deviceData = req.body;
+    // devices.addDevice(deviceData);
     const deviceData = req.body;
-    devices.addDevice(deviceData);
+    const device = new Device(deviceData);
+    await device.save();
 
     res.sendStatus(201);
 });
