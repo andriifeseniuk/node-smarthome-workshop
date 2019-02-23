@@ -1,3 +1,6 @@
+import axios from 'axios';
+const serverUrl = 'http://localhost:3005';
+
 let index = 3;
 let devices = {
     device1: {
@@ -17,7 +20,9 @@ let devices = {
 };
 
 export async function getDevices() {
-    return Object.values(devices);
+    const response = await axios.get(`${serverUrl}/devices`);
+    return response.data;
+    //return Object.values(devices);
 }
 
 export async function getDeviceById(deviceId) {
