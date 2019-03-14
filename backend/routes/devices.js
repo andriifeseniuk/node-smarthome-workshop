@@ -36,6 +36,11 @@ router.get('/:id', async (req, res) => {
     }
 });
 
+router.get('/logs', async (req, res) => {
+    const devices = await Device.find().exec();
+    res.json(devices.map(d => deviceAdapter(d)));
+});
+
 function deviceAdapter(device) {
     return {
         id: device._id,
@@ -86,11 +91,11 @@ router.put('/:id', async (req, res) => {
         // await sendRequest(urlWithCommand);
 
         // FAKE DEVICE (if you did "npm run startFakeDevice"):
-        const url = `http://127.0.0.1:3006`;
-        const command = device.state ? 'Power%20On' : 'Power%20off';
-        const urlWithCommand = `${url}/cm?cmnd=${command}`;
-        console.log(urlWithCommand);
-        await sendRequest(urlWithCommand);   
+        // const url = `http://127.0.0.1:3006`;
+        // const command = device.state ? 'Power%20On' : 'Power%20off';
+        // const urlWithCommand = `${url}/cm?cmnd=${command}`;
+        // console.log(urlWithCommand);
+        // await sendRequest(urlWithCommand);   
 
         res.sendStatus(200);
     } catch (e) {

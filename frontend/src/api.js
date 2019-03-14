@@ -69,22 +69,28 @@ export async function switchOn(deviceId) {
     await updateDevice(deviceId, {
         state: 'on'
     });
+    
+    await axios.post(`${serverUrl}/logs`, { deviceId: deviceId, state: 'on', timestamp: new Date().toUTCString()});
 }
 
 export async function switchOff(deviceId) {
     await updateDevice(deviceId, {
         state: 'off'
     });
+
+    await axios.post(`${serverUrl}/logs`, { deviceId: deviceId, state: 'off', timestamp: new Date().toUTCString()});
 }
 
 export async function getDeviceLog(deviceId) {
-    return [
-        {
-            date: '2018-31-08 16:00:00',
-            action: 'On'
-        },
-        {
-            date: '2018-31-08 17:00:00',
-            action: 'Off'
-        }]
+    const response = await axios.get(`${serverUrl}/logs/${deviceId}`);
+    return response.data;
+    // return [
+    //     {
+    //         date: '2018-31-08 16:00:00',
+    //         action: 'On'
+    //     },
+    //     {
+    //         date: '2018-31-08 17:00:00',
+    //         action: 'Off'
+    //     }]
 }

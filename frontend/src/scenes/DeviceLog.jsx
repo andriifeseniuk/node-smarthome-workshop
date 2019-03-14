@@ -11,7 +11,7 @@ export default class DeviceLog extends PureComponent {
         const { id } = this.props.match.params;
 
         this.setState({
-            device: await getDeviceById(id, 10),
+            device: await getDeviceById(id),
             log: await getDeviceLog(id)
         });
     };
@@ -51,8 +51,8 @@ export default class DeviceLog extends PureComponent {
                             {log.map((item, index) => (
                                 <tr key={index}>
                                     <th scope="row">{index + 1}</th>
-                                    <td>{item.date}</td>
-                                    <td>{item.action}</td>
+                                    <td>{item.timestamp}</td>
+                                    <td>{item.state}</td>
                                 </tr>
                             ))}
                             </tbody>
