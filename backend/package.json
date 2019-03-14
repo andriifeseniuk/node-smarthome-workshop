@@ -6,6 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon index.js",
+    "startFakeDevice": "nodemon fakeDevice.js 3006",
     "debug": "node --inspect-brk index.js"
   },
   "author": "",

@@ -4,6 +4,10 @@ const app = express();
 let deviceState = false;
 const port = parseInt(process.argv[2]);
 
+app.get('/', async (req, res) => {
+    res.json(deviceState);
+});
+
 app.get('/cm', (req, res) => {
     const action = req.query.cmnd;
 
