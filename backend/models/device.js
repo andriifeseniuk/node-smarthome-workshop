@@ -5,7 +5,8 @@ const deviceSchema = new Schema({
     name: String,
     address: String,
     port: Number,
-    state: Boolean
+    state: Boolean,
+    group: String
 });
 
 const deviceModel = mongoose.model('device', deviceSchema);

@@ -2,6 +2,7 @@ const express = require('express')
 const mongoose = require('mongoose');
 const deviceRouter = require('./routes/devices');
 const logRouter = require('./routes/logs');
+const groupRouter = require('./routes/groups');
 const corsMiddleware = require('./middlewares/cors');
 const app = express();
 const port = 3005;
@@ -12,6 +13,7 @@ app.use(corsMiddleware);
 app.use(express.json());
 app.use('/devices', deviceRouter);
 app.use('/logs', logRouter);
+app.use('/groups', groupRouter);
 
 app.get('/', (req, res) => {
     console.log("Hello");
