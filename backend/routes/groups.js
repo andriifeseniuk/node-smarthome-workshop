@@ -61,7 +61,7 @@ router.put('/:group', async (req, res) => {
     const devices = await Device.find({group: group}).exec();
     console.log(devices);
 
-    if (devices) {
+    if (devices && devices.length) {
         devices.forEach(d => {
             d.state = state === 'on';
             d.save();
